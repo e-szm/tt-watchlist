@@ -1,14 +1,17 @@
 <script lang="ts">
 	interface InputProps {
+		name: string;
 		label: string;
 		type: string;
+		required: boolean;
+		value?: string;
 	}
-	let { label, type }: InputProps = $props();
+	let { name, label, type, required, value = '' }: InputProps = $props();
 </script>
 
 <label class="text--xs">
 	{label}
-	<input class="text--sm" {type} />
+	<input class="text--sm" {name} {type} {required} {value} />
 </label>
 
 <style>
