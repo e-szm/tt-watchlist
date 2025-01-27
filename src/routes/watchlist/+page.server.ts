@@ -1,22 +1,7 @@
-import { fail, redirect, type Actions } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import { fail, redirect } from '@sveltejs/kit';
+import type { Actions } from './$types';
 
-import { getWatchlist, postWatchlist } from '$lib/server/watchlist';
-
-export const load: PageServerLoad = async ({ cookies, route }) => {
-	const existingToken = cookies.get('session-token');
-	if (!existingToken) redirect(302, '/login');
-
-	console.log(route);
-
-	try {
-		const data = await getWatchlist(existingToken);
-		return data;
-	} catch {
-		cookies.set('session-token', 'invalid', { path: '/', expires: new Date(Date.now()) });
-		redirect(302, '/login');
-	}
-};
+import { postWatchlist } from '$lib/server/watchlist';
 
 export const actions = {
 	watchlist: async ({ cookies, request }) => {
