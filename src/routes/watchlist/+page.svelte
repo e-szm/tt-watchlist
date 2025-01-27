@@ -6,6 +6,7 @@
 	import NewWatchlist from '$lib/modals/NewWatchlist.svelte';
 
 	let openModal = $state('');
+
 	let { data }: PageProps = $props();
 
 	function handleOpenModal(name: string) {

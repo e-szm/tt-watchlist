@@ -1,5 +1,6 @@
 <script lang="ts">
-	import type { PageProps } from '../$types';
+	import type { PageProps } from './$types';
+
 	import Form from '$lib/components/Form.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
