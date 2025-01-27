@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { LayoutProps } from './$types';
+	// import { page } from '$app/state';
 
 	import Select from '$lib/components/Select.svelte';
 	import Button from '$lib/components/Button.svelte';
@@ -7,6 +8,8 @@
 
 	let { data, children }: LayoutProps = $props();
 	let openModal = $state('');
+
+	// const currentWatchlist = page.params.slug;
 
 	function handleOpenModal(name: string) {
 		if (openModal === name) return;
@@ -25,7 +28,7 @@
 		<menu>
 			<li>
 				<Select name="watchlist" label="Watchlist to display" --width="30rem">
-					{#each data.items as watchlist}
+					{#each data.watchlists as watchlist}
 						<option value={watchlist.name.toLocaleLowerCase()}>{watchlist.name}</option>
 					{/each}
 				</Select>
