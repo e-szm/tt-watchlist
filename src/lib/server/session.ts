@@ -1,3 +1,5 @@
+import { TT_BASE_URL } from '$env/static/private';
+
 interface PostSession {
 	login: string;
 	password: string;
@@ -23,7 +25,7 @@ export async function postSession(body: PostSession): Promise<SessionResponse> {
 	const headers = new Headers();
 	headers.append('Content-Type', 'application/json');
 
-	const res = await fetch('https://api.cert.tastyworks.com/sessions', {
+	const res = await fetch(`${TT_BASE_URL}/sessions`, {
 		headers,
 		method: 'POST',
 		body: JSON.stringify(body)

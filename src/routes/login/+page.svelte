@@ -4,11 +4,7 @@
 	import Input from '$lib/components/Input.svelte';
 	import Button from '$lib/components/Button.svelte';
 
-	// TODO: ActionData is remaining as 'unknown' type
 	let { form }: PageProps = $props();
-	const { error, email } = form
-		? (form as { error: string | undefined; email: string | undefined })
-		: {};
 </script>
 
 <main class="container">
@@ -17,11 +13,13 @@
 			<h1>Welcome Back</h1>
 			<p class="text--lg">Please log in to begin a new session.</p>
 			<Form method="POST">
-				<Input name="username" label="Username" type="text" required={true} value={email} />
+				<Input name="username" label="Username" type="text" required={true} />
 				<Input name="password" label="Password" type="password" required={true} />
-				<Button type="primary" --margin="2.8rem 0 0 0" --align-self="flex-end">Log In</Button>
-				{#if form && error}
-					<p class="error">{error}</p>
+				<Button type="submit" look="primary" --margin="2.8rem 0 0 0" --align-self="flex-end"
+					>Log In</Button
+				>
+				{#if form && form.error}
+					<p class="error">{form.error}</p>
 				{/if}
 			</Form>
 		</div>

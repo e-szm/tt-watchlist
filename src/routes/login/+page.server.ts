@@ -1,17 +1,9 @@
-import { fail, redirect, type ActionFailure } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { postSession } from '$lib/api/session';
-
-type DefaultAction = Promise<
-	| ActionFailure<{
-			error: string;
-			email: string;
-	  }>
-	| { message: string }
->;
+import { postSession } from '$lib/server/session';
 
 export const actions = {
-	default: async ({ cookies, request }): DefaultAction => {
+	default: async ({ cookies, request }) => {
 		const formData = await request.formData();
 		const login = formData.get('username');
 		const password = formData.get('password');

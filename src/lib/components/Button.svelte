@@ -1,14 +1,17 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import type { MouseEventHandler } from 'svelte/elements';
 
 	interface ButtonProps {
-		type: 'primary' | 'secondary';
+		type: 'submit' | 'button';
+		look: 'primary' | 'secondary' | 'link';
+		onclick?: MouseEventHandler<HTMLButtonElement>;
 		children: Snippet;
 	}
-	let { type, children }: ButtonProps = $props();
+	let { type, look, onclick, children }: ButtonProps = $props();
 </script>
 
-<button class={[type, 'text--sm']}>
+<button {type} class={[look, 'text--sm']} {onclick}>
 	{@render children()}
 </button>
 
@@ -47,5 +50,16 @@
 
 	.secondary:hover {
 		background-color: var(--grey--100);
+	}
+
+	.link {
+		color: var(--light-blue--400);
+		background-color: #fff;
+		border: 2px solid transparent;
+	}
+
+	.link:hover {
+		color: var(--light-blue--600);
+		text-decoration: underline;
 	}
 </style>
