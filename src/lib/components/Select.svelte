@@ -1,17 +1,19 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import type { ChangeEventHandler } from 'svelte/elements';
 
 	interface SelectProps {
 		name: string;
 		label: string;
+		onChange?: ChangeEventHandler<HTMLSelectElement>;
 		children: Snippet;
 	}
-	let { name, label, children }: SelectProps = $props();
+	let { name, label, onChange, children }: SelectProps = $props();
 </script>
 
 <label class="text--xs">
 	{label}
-	<select class="text--sm" {name}>
+	<select class="text--sm" onchange={onChange} {name}>
 		{@render children()}
 	</select>
 </label>

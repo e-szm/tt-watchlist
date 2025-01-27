@@ -1,6 +1,8 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
+
 	import type { LayoutProps } from './$types';
-	// import { page } from '$app/state';
 
 	import Select from '$lib/components/Select.svelte';
 	import Button from '$lib/components/Button.svelte';
@@ -9,7 +11,7 @@
 	let { data, children }: LayoutProps = $props();
 	let openModal = $state('');
 
-	// const currentWatchlist = page.params.slug;
+	const currentWatchlist = page.params.slug;
 
 	function handleOpenModal(name: string) {
 		if (openModal === name) return;
@@ -19,6 +21,11 @@
 	function handleCloseModal() {
 		openModal = '';
 	}
+
+	function handleChangeWatchlist(e: Event & { currentTarget: EventTarget & HTMLSelectElement }) {
+		const target = e.target as HTMLSelectElement;
+		if (e.target) goto(`/watchlist/${target.value}`, { invalidateAll: true });
+	}
 </script>
 
 <NewWatchlist {openModal} onClose={handleCloseModal} />
@@ -27,9 +34,16 @@
 	<div class="watchlist grid--1-col">
 		<menu>
 			<li>
-				<Select name="watchlist" label="Watchlist to display" --width="30rem">
+				<Select
+					name="watchlist"
+					label="Watchlist to display"
+					onChange={handleChangeWatchlist}
+					--width="30rem"
+				>
 					{#each data.watchlists as watchlist}
-						<option value={watchlist.name.toLocaleLowerCase()}>{watchlist.name}</option>
+						<option value={watchlist.name} selected={watchlist.name === currentWatchlist}
+							>{watchlist.name}</option
+						>
 					{/each}
 				</Select>
 			</li>
