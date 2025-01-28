@@ -3,7 +3,11 @@ import { getOneWatchlist, putWatchlist } from '$lib/server/watchlist';
 
 export const symbol = async ({ cookies, request, params }: RequestEvent) => {
 	const existingToken = cookies.get('session-token');
-	if (!existingToken) redirect(302, '/login');
+	console.log(existingToken);
+	if (!existingToken) {
+		console.log('should redirect');
+		return redirect(302, '/login');
+	}
 
 	const formData = await request.formData();
 	const symbol = formData.get('symbol');

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { deserialize } from '$app/forms';
-	import { invalidateAll } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 
 	import type { ActionResult } from '@sveltejs/kit';
 
@@ -26,6 +26,7 @@
 		});
 		const result: ActionResult = deserialize(await res.text());
 		if (result.type === 'success') await invalidateAll();
+		if (result.type === 'redirect') goto(result.location);
 
 		onClose();
 	}
