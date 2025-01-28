@@ -1,8 +1,22 @@
-import type { Actions } from './$types';
-import { watchlist } from '$lib/actions/watchlist';
-import { symbol } from '$lib/actions/symbol';
+import { redirect } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
+import { newWatchlist, newSymbol, deleteWatchlist } from '$lib/actions/watchlist';
+
+export const load: PageServerLoad = async ({ parent, params }) => {
+	console.log('PAGE layout server load');
+
+	const data = await parent();
+
+	if (
+		!data.watchlists.length ||
+		data.watchlists.findIndex((watchlist) => watchlist.name === params.slug) === -1
+	) {
+		redirect(302, '/watchlist');
+	}
+};
 
 export const actions = {
-	watchlist,
-	symbol
+	newWatchlist,
+	deleteWatchlist,
+	newSymbol
 } satisfies Actions;

@@ -8,13 +8,22 @@
 	interface ModalProps {
 		isOpen: boolean;
 		title: string;
+		dangerous?: boolean;
 		onClose: MouseEventHandler<HTMLButtonElement>;
 		onSubmit: EventHandler<SubmitEvent, HTMLFormElement>;
 		action: string;
 		children: Snippet;
 	}
 
-	let { title, isOpen, onClose, onSubmit, action, children }: ModalProps = $props();
+	let {
+		title,
+		isOpen,
+		dangerous = false,
+		onClose,
+		onSubmit,
+		action,
+		children
+	}: ModalProps = $props();
 </script>
 
 {#if isOpen}
@@ -25,7 +34,7 @@
 				{@render children()}
 				<div class="button-container">
 					<Button type="button" look="secondary" onclick={onClose}>Close</Button>
-					<Button type="submit" look="primary">Confirm</Button>
+					<Button type="submit" look={dangerous ? 'dangerous' : 'primary'}>Confirm</Button>
 				</div>
 			</Form>
 		</div>
@@ -37,6 +46,7 @@
 		position: fixed;
 		top: 0;
 		left: 0;
+		z-index: 999;
 
 		display: flex;
 		align-items: center;

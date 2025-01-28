@@ -4,14 +4,15 @@
 
 	interface ButtonProps {
 		type: 'submit' | 'button';
-		look: 'primary' | 'secondary' | 'link';
+		look: 'primary' | 'secondary' | 'dangerous' | 'link';
 		onclick?: MouseEventHandler<HTMLButtonElement>;
+		ariaLabel?: string;
 		children: Snippet;
 	}
-	let { type, look, onclick, children }: ButtonProps = $props();
+	let { type, look, onclick, ariaLabel, children }: ButtonProps = $props();
 </script>
 
-<button {type} class={[look, 'text--sm']} {onclick}>
+<button {type} class={[look, 'text--sm']} {onclick} aria-label={ariaLabel}>
 	{@render children()}
 </button>
 
@@ -50,6 +51,16 @@
 
 	.secondary:hover {
 		background-color: var(--grey--100);
+	}
+
+	.dangerous {
+		color: #fff;
+		background-color: var(--red--700);
+		border: 2px solid transparent;
+	}
+
+	.dangerous:hover {
+		background-color: var(--red--900);
 	}
 
 	.link {

@@ -25,10 +25,11 @@
 			body: data
 		});
 		const result: ActionResult = deserialize(await res.text());
-		if (result.type === 'success') await invalidateAll();
+		if (result.type === 'success') {
+			await invalidateAll();
+			onClose();
+		}
 		if (result.type === 'redirect') goto(result.location);
-
-		onClose();
 	}
 </script>
 
@@ -37,7 +38,7 @@
 	title="New Watchlist"
 	{onClose}
 	onSubmit={handleNewWatchlist}
-	action="?/watchlist"
+	action="?/newWatchlist"
 >
 	<Input type="text" name="watchlist" label="Give your watchlist a name" required={true} />
 </ModalForm>

@@ -6,14 +6,15 @@
 		name: string;
 		label: string;
 		onChange?: ChangeEventHandler<HTMLSelectElement>;
+		disabled?: boolean;
 		children: Snippet;
 	}
-	let { name, label, onChange, children }: SelectProps = $props();
+	let { name, label, onChange, disabled = false, children }: SelectProps = $props();
 </script>
 
 <label class="text--xs">
 	{label}
-	<select class="text--sm" onchange={onChange} {name}>
+	<select class="text--sm" onchange={onChange} {name} {disabled}>
 		{@render children()}
 	</select>
 </label>
@@ -40,5 +41,10 @@
 		border-radius: var(--border-radius--me);
 
 		cursor: pointer;
+	}
+
+	select:disabled {
+		cursor: not-allowed;
+		background-color: var(--grey--700);
 	}
 </style>

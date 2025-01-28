@@ -1,20 +1,20 @@
 <script lang="ts">
 	import { deserialize } from '$app/forms';
 	import { goto, invalidateAll } from '$app/navigation';
+	import { page } from '$app/state';
 
 	import type { ActionResult } from '@sveltejs/kit';
 
-	import Input from '$lib/components/Input.svelte';
 	import ModalForm from '$lib/components/ModalForm.svelte';
 
-	interface NewSymbolProps {
+	interface DeleteWatchlistProps {
 		openModal: string;
 		onClose: () => void;
 	}
 
-	let { openModal, onClose }: NewSymbolProps = $props();
+	let { openModal, onClose }: DeleteWatchlistProps = $props();
 
-	async function handleNewSymbol(
+	async function handleDeleteWatchlist(
 		e: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }
 	) {
 		e.preventDefault();
@@ -24,6 +24,7 @@
 			method: 'POST',
 			body: data
 		});
+
 		const result: ActionResult = deserialize(await res.text());
 		if (result.type === 'success') await invalidateAll();
 		if (result.type === 'redirect') goto(result.location);
@@ -33,11 +34,12 @@
 </script>
 
 <ModalForm
-	isOpen={openModal === 'new-symbol'}
-	title="New Symbol"
+	isOpen={openModal === 'delete-watchlist'}
+	title="Delete Watchlist"
+	dangerous={true}
 	{onClose}
-	onSubmit={handleNewSymbol}
-	action="?/newSymbol"
+	onSubmit={handleDeleteWatchlist}
+	action="?/deleteWatchlist"
 >
-	<Input type="text" name="symbol" label="Search for a symbol" required={true} />
+	<p>Are you sure you want to delete "<strong>{page.params.slug}</strong>"?</p>
 </ModalForm>

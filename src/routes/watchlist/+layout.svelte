@@ -4,10 +4,12 @@
 
 	import type { LayoutProps } from './$types';
 
+	import NewWatchlist from '$lib/modals/NewWatchlist.svelte';
+	import DeleteWatchlist from '$lib/modals/DeleteWatchlist.svelte';
+	import NewSymbol from '$lib/modals/NewSymbol.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import Button from '$lib/components/Button.svelte';
-	import NewWatchlist from '$lib/modals/NewWatchlist.svelte';
-	import NewSymbol from '$lib/modals/NewSymbol.svelte';
+	import IconTrash from '$lib/components/IconTrash.svelte';
 
 	let { data, children }: LayoutProps = $props();
 	let openModal = $state('');
@@ -30,6 +32,7 @@
 </script>
 
 <NewWatchlist {openModal} onClose={handleCloseModal} />
+<DeleteWatchlist {openModal} onClose={handleCloseModal} />
 <NewSymbol {openModal} onClose={handleCloseModal} />
 <header></header>
 <main class="container">
@@ -39,6 +42,7 @@
 				<Select
 					name="watchlist"
 					label="Watchlist to display"
+					disabled={!data.watchlists.length}
 					onChange={handleChangeWatchlist}
 					--width="30rem"
 				>
@@ -54,14 +58,26 @@
 					>New Watchlist</Button
 				>
 			</li>
+			{#if data.watchlists.length}
+				<li class="delete">
+					<Button
+						type="button"
+						look="link"
+						onclick={() => handleOpenModal('delete-watchlist')}
+						ariaLabel="Delete watchlist"><IconTrash /></Button
+					>
+				</li>
+			{/if}
 		</menu>
 
 		{@render children()}
 
 		<div class="table-footer">
-			<Button type="button" look="link" onclick={() => handleOpenModal('new-symbol')}
-				>+ Add Symbol</Button
-			>
+			{#if data.watchlists.length}
+				<Button type="button" look="link" onclick={() => handleOpenModal('new-symbol')}
+					>+ Add Symbol</Button
+				>
+			{/if}
 		</div>
 	</div>
 </main>
@@ -94,6 +110,10 @@
 
 		list-style: none;
 		box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+	}
+
+	menu .delete {
+		margin-left: auto;
 	}
 
 	.table-footer {

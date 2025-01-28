@@ -1,7 +1,12 @@
-import { postWatchlist } from '$lib/server/watchlist';
+import {
+	getOneWatchlist,
+	postWatchlist,
+	putWatchlist,
+	deleteOneWatchlist
+} from '$lib/server/watchlist';
 import { fail, redirect, type RequestEvent } from '@sveltejs/kit';
 
-export const watchlist = async ({ cookies, request }: RequestEvent) => {
+export const newWatchlist = async ({ cookies, request }: RequestEvent) => {
 	const existingToken = cookies.get('session-token');
 	if (!existingToken) redirect(302, '/login');
 
@@ -15,6 +20,55 @@ export const watchlist = async ({ cookies, request }: RequestEvent) => {
 		await postWatchlist(existingToken, { name, 'watchlist-entries': [] });
 	} catch (error: unknown) {
 		if (error instanceof Error) return fail(400, { error: error.message, name });
+		return fail(400, { error: 'Something went wrong', name });
+	}
+
+	return { success: true };
+};
+
+export const deleteWatchlist = async ({ cookies, params }: RequestEvent) => {
+	const existingToken = cookies.get('session-token');
+	if (!existingToken) redirect(302, '/login');
+
+	const watchlist = params.slug;
+
+	if (!watchlist) return fail(400, { error: 'Invalid information', name: '' });
+	if (typeof watchlist !== 'string') return fail(400, { error: 'Invalid information', name: '' });
+
+	try {
+		await deleteOneWatchlist(existingToken, watchlist);
+	} catch (error: unknown) {
+		if (error instanceof Error) return fail(400, { error: error.message, name });
+		return fail(400, { error: 'Something went wrong', name });
+	}
+
+	return { success: true };
+};
+
+export const newSymbol = async ({ cookies, request, params }: RequestEvent) => {
+	const existingToken = cookies.get('session-token');
+	if (!existingToken) return redirect(302, '/login');
+
+	const formData = await request.formData();
+	const symbol = formData.get('symbol');
+	const watchlist = params.slug;
+
+	if (!symbol || !watchlist) return fail(400, { error: 'Invalid information', symbol: '' });
+	if (typeof symbol !== 'string') return fail(400, { error: 'Invalid information', symbol: '' });
+
+	const existingWatchlist = await getOneWatchlist(existingToken, watchlist);
+
+	const updatedEntries = [];
+	existingWatchlist['watchlist-entries']?.forEach((entry) => updatedEntries.push(entry));
+	updatedEntries.push({ symbol });
+
+	try {
+		await putWatchlist(existingToken, watchlist, {
+			name: watchlist,
+			'watchlist-entries': updatedEntries
+		});
+	} catch (error: unknown) {
+		if (error instanceof Error) return fail(400, { error: error.message, symbol });
 		return fail(400, { error: 'Something went wrong', name });
 	}
 

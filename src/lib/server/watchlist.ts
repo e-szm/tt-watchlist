@@ -91,3 +91,20 @@ export async function putWatchlist(
 
 	return (await res.json()).data;
 }
+
+export async function deleteOneWatchlist(
+	token: string,
+	watchlist: string
+): Promise<OneWatchlistResponse> {
+	const headers = new Headers();
+	headers.append('Content-Type', 'application/json');
+	headers.append('Authorization', token);
+
+	const res = await fetch(`${TT_BASE_URL}/watchlists/${watchlist}`, {
+		headers,
+		method: 'DELETE'
+	});
+	if (!res.ok || res.status !== 200) throw new Error('Something went wrong');
+
+	return (await res.json()).data;
+}

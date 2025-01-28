@@ -6,6 +6,8 @@
 	let symbols = $derived(
 		data.watchlists.find((watchlist) => watchlist.name === page.params.slug)?.['watchlist-entries']
 	);
+
+	console.log('page load');
 </script>
 
 <div class="watchlist-table">
