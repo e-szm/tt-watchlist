@@ -10,17 +10,18 @@
 		title: string;
 		onClose: MouseEventHandler<HTMLButtonElement>;
 		onSubmit: EventHandler<SubmitEvent, HTMLFormElement>;
+		action: string;
 		children: Snippet;
 	}
 
-	let { title, isOpen, onClose, onSubmit, children }: ModalProps = $props();
+	let { title, isOpen, onClose, onSubmit, action, children }: ModalProps = $props();
 </script>
 
 {#if isOpen}
 	<div class="overlay">
 		<div class="modal">
 			<h3>{title}</h3>
-			<Form method="POST" action="?/watchlist" {onSubmit}>
+			<Form method="POST" {action} {onSubmit}>
 				{@render children()}
 				<div class="button-container">
 					<Button type="button" look="secondary" onclick={onClose}>Close</Button>

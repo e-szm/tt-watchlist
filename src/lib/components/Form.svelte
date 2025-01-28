@@ -12,9 +12,15 @@
 	let { method = 'GET', action, onSubmit, children }: FormProps = $props();
 </script>
 
-<form {method} {action} onsubmit={onSubmit} use:enhance>
-	{@render children()}
-</form>
+{#if onSubmit}
+	<form {method} {action} onsubmit={onSubmit}>
+		{@render children()}
+	</form>
+{:else}
+	<form {method} {action} use:enhance>
+		{@render children()}
+	</form>
+{/if}
 
 <style>
 	form {

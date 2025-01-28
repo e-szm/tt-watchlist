@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { LayoutServerLoad } from './$types';
 
-import { getWatchlist } from '$lib/server/watchlist';
+import { getAllWatchlists } from '$lib/server/watchlist';
 
 export const load: LayoutServerLoad = async ({ cookies }) => {
 	const existingToken = cookies.get('session-token');
@@ -9,7 +9,7 @@ export const load: LayoutServerLoad = async ({ cookies }) => {
 
 	console.log('Watchlist layout server load');
 	try {
-		const data = await getWatchlist(existingToken);
+		const data = await getAllWatchlists(existingToken);
 		return { watchlists: data.items };
 	} catch {
 		cookies.set('session-token', 'invalid', { path: '/', expires: new Date(Date.now()) });

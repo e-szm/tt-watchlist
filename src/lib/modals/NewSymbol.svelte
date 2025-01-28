@@ -32,11 +32,11 @@
 </script>
 
 <ModalForm
-	isOpen={openModal === 'new-watchlist'}
-	title="New Watchlist"
+	isOpen={openModal === 'new-symbol'}
+	title="New Symbol"
 	{onClose}
 	onSubmit={handleNewWatchlist}
-	action="?/watchlist"
+	action="?/symbol"
 >
-	<Input type="text" name="watchlist" label="Give your watchlist a name" required={true} />
+	<Input type="text" name="symbol" label="Search for a symbol" required={true} />
 </ModalForm>

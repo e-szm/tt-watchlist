@@ -7,6 +7,7 @@
 	import Select from '$lib/components/Select.svelte';
 	import Button from '$lib/components/Button.svelte';
 	import NewWatchlist from '$lib/modals/NewWatchlist.svelte';
+	import NewSymbol from '$lib/modals/NewSymbol.svelte';
 
 	let { data, children }: LayoutProps = $props();
 	let openModal = $state('');
@@ -29,6 +30,7 @@
 </script>
 
 <NewWatchlist {openModal} onClose={handleCloseModal} />
+<NewSymbol {openModal} onClose={handleCloseModal} />
 <header></header>
 <main class="container">
 	<div class="watchlist grid--1-col">
@@ -56,7 +58,11 @@
 
 		{@render children()}
 
-		<div class="table-footer"><Button type="button" look="link">+ Add Symbol</Button></div>
+		<div class="table-footer">
+			<Button type="button" look="link" onclick={() => handleOpenModal('new-symbol')}
+				>+ Add Symbol</Button
+			>
+		</div>
 	</div>
 </main>
 
