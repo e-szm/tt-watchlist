@@ -6,6 +6,7 @@
 	} from 'svelte/elements';
 	import Input from './Input.svelte';
 	import SearchResult from './SearchResult.svelte';
+	import Constants from '$lib/classes/Constants';
 
 	interface SearchProps {
 		name: string;
@@ -38,7 +39,7 @@
 			return;
 		}
 
-		const res = await fetch(`https://vast.tastyworks.com/symbols/search/${searchStr}`);
+		const res = await fetch(`${Constants.SYMBOL_SEARCH_URL}/${searchStr}`);
 		const data: SymbolSearchResponse = await res.json();
 
 		searchResults = [...data.data.items];

@@ -3,7 +3,7 @@
 	import type { LayoutProps } from '../$types';
 
 	let { data }: LayoutProps = $props();
-	let symbols = $derived(
+	let entries = $derived(
 		data.watchlists.find((watchlist) => watchlist.name === page.params.slug)?.['watchlist-entries']
 	);
 
@@ -11,7 +11,7 @@
 </script>
 
 <div class="watchlist-table">
-	{#if symbols}
+	{#if entries}
 		<table>
 			<thead>
 				<tr>
@@ -22,12 +22,18 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each symbols as symbol}
+				{#each entries as entry}
 					<tr>
-						<td>{symbol.symbol}</td>
+						<td>{entry.symbol}</td>
 						<td>$55.25</td>
 						<td>$55.23</td>
 						<td>$55.26</td>
+						<td
+							><form method="POST" action="?/deleteSymbol">
+								<input name="symbol" type="hidden" value={entry.symbol} />
+								<button aria-label="Delete {entry.symbol} symbol">X</button>
+							</form></td
+						>
 					</tr>
 				{/each}
 			</tbody>
@@ -62,6 +68,22 @@
 
 	th {
 		letter-spacing: 0.6px;
+	}
+
+	form button {
+		font-family: inherit;
+		color: var(--red--700);
+		font-weight: 600;
+
+		border: none;
+		background-color: inherit;
+
+		transition: transform 200ms;
+		cursor: pointer;
+	}
+
+	form button:hover {
+		transform: scale(1.5);
 	}
 
 	.help-box {
