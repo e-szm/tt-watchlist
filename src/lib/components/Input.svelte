@@ -1,17 +1,38 @@
 <script lang="ts">
+	import type { ChangeEventHandler } from 'svelte/elements';
+
 	interface InputProps {
 		name: string;
 		label: string;
 		type: string;
 		required: boolean;
-		value?: string;
+		autoComplete?: 'off';
+		onInput?: ChangeEventHandler<HTMLInputElement>;
+		value?: string | number;
+		tabIndex?: number;
 	}
-	let { name, label, type, required, value = '' }: InputProps = $props();
+	let {
+		name,
+		label,
+		type,
+		required,
+		autoComplete,
+		onInput,
+		value = $bindable('')
+	}: InputProps = $props();
 </script>
 
 <label class="text--xs">
 	{label}
-	<input class="text--sm" {name} {type} {required} {value} />
+	<input
+		class="text--sm"
+		{name}
+		{type}
+		{required}
+		{value}
+		autocomplete={autoComplete}
+		oninput={onInput}
+	/>
 </label>
 
 <style>

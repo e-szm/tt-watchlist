@@ -24,11 +24,19 @@
 		action,
 		children
 	}: ModalProps = $props();
+
+	let modal: HTMLDivElement | undefined = $state(undefined);
+
+	// Not ideal; effect is registered for each modal used
+	$effect(() => {
+		if (!modal) return;
+		modal.querySelector('input')?.focus();
+	});
 </script>
 
 {#if isOpen}
 	<div class="overlay">
-		<div class="modal">
+		<div class="modal" bind:this={modal}>
 			<h3>{title}</h3>
 			<Form method="POST" {action} {onSubmit}>
 				{@render children()}

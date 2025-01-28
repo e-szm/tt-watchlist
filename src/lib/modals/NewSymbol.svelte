@@ -4,8 +4,8 @@
 
 	import type { ActionResult } from '@sveltejs/kit';
 
-	import Input from '$lib/components/Input.svelte';
 	import ModalForm from '$lib/components/ModalForm.svelte';
+	import Search from '$lib/components/Search.svelte';
 
 	interface NewSymbolProps {
 		openModal: string;
@@ -39,5 +39,5 @@
 	onSubmit={handleNewSymbol}
 	action="?/newSymbol"
 >
-	<Input type="text" name="symbol" label="Search for a symbol" required={true} />
+	<Search type="text" name="symbol" label="Search for a symbol" required={true} />
 </ModalForm>
