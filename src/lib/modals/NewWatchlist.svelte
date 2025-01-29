@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { deserialize } from '$app/forms';
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
 
 	import type { ActionResult } from '@sveltejs/kit';
 
@@ -25,11 +25,10 @@
 			body: data
 		});
 		const result: ActionResult = deserialize(await res.text());
-		if (result.type === 'success') {
-			invalidateAll();
+		if (result.type === 'redirect') {
 			onClose();
+			goto(result.location, { invalidateAll: true });
 		}
-		if (result.type === 'redirect') goto(result.location);
 	}
 </script>
 
@@ -38,7 +37,7 @@
 	title="New Watchlist"
 	{onClose}
 	onSubmit={handleNewWatchlist}
-	action="?/newWatchlist"
+	action="?/create"
 >
 	<Input type="text" name="watchlist" label="Give your watchlist a name" required={true} />
 </ModalForm>

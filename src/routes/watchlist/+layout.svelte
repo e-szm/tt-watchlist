@@ -14,8 +14,6 @@
 	let { data, children }: LayoutProps = $props();
 	let openModal = $state('');
 
-	const currentWatchlist = page.params.slug;
-
 	function handleOpenModal(name: string) {
 		if (openModal === name) return;
 		openModal = name;
@@ -46,8 +44,8 @@
 					onChange={handleChangeWatchlist}
 					--width="30rem"
 				>
-					{#each data.watchlists as watchlist}
-						<option value={watchlist.name} selected={watchlist.name === currentWatchlist}
+					{#each data.watchlists as watchlist (watchlist.name)}
+						<option value={watchlist.name} selected={watchlist.name === page.params.slug}
 							>{watchlist.name}</option
 						>
 					{/each}

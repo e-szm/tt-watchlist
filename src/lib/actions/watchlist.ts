@@ -6,18 +6,33 @@ import {
 } from '$lib/server/watchlistAPI';
 import { fail, redirect, type RequestEvent } from '@sveltejs/kit';
 
-export const newWatchlist = async ({ cookies, request }: RequestEvent) => {
-	const existingToken = cookies.get('session-token');
-	if (!existingToken) redirect(302, '/login');
-
+export const create = async ({ locals, request }: RequestEvent) => {
 	const formData = await request.formData();
-	const name = formData.get('watchlist');
+	const rawName = formData.get('watchlist');
+
+	if (!rawName) return fail(400, { error: 'Invalid information', name: '' });
+	if (typeof rawName !== 'string') return fail(400, { error: 'Invalid information', name: '' });
+	const name = rawName.trim();
+
+	let watchlist;
+	try {
+		watchlist = await postWatchlist(locals.user.token, { name, 'watchlist-entries': [] });
+	} catch (error: unknown) {
+		if (error instanceof Error) return fail(400, { error: error.message, name });
+		return fail(400, { error: 'Something went wrong', name });
+	}
+
+	redirect(303, `/watchlist/${watchlist.name}`);
+};
+
+export const remove = async ({ locals, params }: RequestEvent) => {
+	const name = params.slug;
 
 	if (!name) return fail(400, { error: 'Invalid information', name: '' });
 	if (typeof name !== 'string') return fail(400, { error: 'Invalid information', name: '' });
 
 	try {
-		await postWatchlist(existingToken, { name, 'watchlist-entries': [] });
+		await deleteOneWatchlist(locals.user.token, name);
 	} catch (error: unknown) {
 		if (error instanceof Error) return fail(400, { error: error.message, name });
 		return fail(400, { error: 'Something went wrong', name });
@@ -26,45 +41,27 @@ export const newWatchlist = async ({ cookies, request }: RequestEvent) => {
 	return { success: true };
 };
 
-export const deleteWatchlist = async ({ cookies, params }: RequestEvent) => {
-	const existingToken = cookies.get('session-token');
-	if (!existingToken) redirect(302, '/login');
-
-	const watchlist = params.slug;
-
-	if (!watchlist) return fail(400, { error: 'Invalid information', name: '' });
-	if (typeof watchlist !== 'string') return fail(400, { error: 'Invalid information', name: '' });
-
-	try {
-		await deleteOneWatchlist(existingToken, watchlist);
-	} catch (error: unknown) {
-		if (error instanceof Error) return fail(400, { error: error.message, name });
-		return fail(400, { error: 'Something went wrong', name });
-	}
-
-	return { success: true };
-};
-
-export const newSymbol = async ({ cookies, request, params }: RequestEvent) => {
-	const existingToken = cookies.get('session-token');
-	if (!existingToken) return redirect(302, '/login');
-
+export const newSymbol = async ({ locals, request, params }: RequestEvent) => {
 	const formData = await request.formData();
-	const symbol = formData.get('symbol');
-	const watchlist = params.slug;
+	const rawSymbol = formData.get('symbol');
+	const watchlistName = params.slug;
 
-	if (!symbol || !watchlist) return fail(400, { error: 'Invalid information', symbol: '' });
-	if (typeof symbol !== 'string') return fail(400, { error: 'Invalid information', symbol: '' });
+	if (!rawSymbol || !watchlistName) return fail(400, { error: 'Invalid information', symbol: '' });
+	if (typeof rawSymbol !== 'string') return fail(400, { error: 'Invalid information', symbol: '' });
+	const symbol = rawSymbol.trim();
 
 	try {
-		const existingWatchlist = await getOneWatchlist(existingToken, watchlist);
+		const watchlist = await getOneWatchlist(locals.user.token, watchlistName);
+		if (watchlist['watchlist-entries']?.some((entry) => entry.symbol === symbol)) {
+			throw new Error('Duplicate symbol');
+		}
 
 		const updatedEntries = [];
-		existingWatchlist['watchlist-entries']?.forEach((entry) => updatedEntries.push(entry));
+		watchlist['watchlist-entries']?.forEach((entry) => updatedEntries.push(entry));
 		updatedEntries.push({ symbol });
 
-		await putWatchlist(existingToken, watchlist, {
-			name: watchlist,
+		await putWatchlist(locals.user.token, watchlistName, {
+			name: watchlistName,
 			'watchlist-entries': updatedEntries
 		});
 	} catch (error: unknown) {
@@ -75,25 +72,22 @@ export const newSymbol = async ({ cookies, request, params }: RequestEvent) => {
 	return { success: true };
 };
 
-export const deleteSymbol = async ({ cookies, request, params }: RequestEvent) => {
-	const existingToken = cookies.get('session-token');
-	if (!existingToken) return redirect(302, '/login');
-
+export const deleteSymbol = async ({ locals, request, params }: RequestEvent) => {
 	const formData = await request.formData();
 	const symbolToDelete = formData.get('symbol');
-	const watchlist = params.slug;
+	const watchlistName = params.slug;
 
-	if (!symbolToDelete || !watchlist) return fail(400, { error: 'Invalid information' });
+	if (!symbolToDelete || !watchlistName) return fail(400, { error: 'Invalid information' });
 	if (typeof symbolToDelete !== 'string') return fail(400, { error: 'Invalid information' });
 
-	const existingWatchlist = await getOneWatchlist(existingToken, watchlist);
-	const updatedEntries =
-		existingWatchlist['watchlist-entries']?.filter((entry) => entry.symbol !== symbolToDelete) ||
-		[];
-
 	try {
-		await putWatchlist(existingToken, watchlist, {
-			name: watchlist,
+		const watchlist = await getOneWatchlist(locals.user.token, watchlistName);
+
+		const updatedEntries =
+			watchlist['watchlist-entries']?.filter((entry) => entry.symbol !== symbolToDelete) || [];
+
+		await putWatchlist(locals.user.token, watchlistName, {
+			name: watchlistName,
 			'watchlist-entries': updatedEntries
 		});
 	} catch (error: unknown) {

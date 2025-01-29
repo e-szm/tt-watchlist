@@ -39,7 +39,7 @@
 	dangerous={true}
 	{onClose}
 	onSubmit={handleDeleteWatchlist}
-	action="?/deleteWatchlist"
+	action="?/remove"
 >
 	<p>Are you sure you want to delete "<strong>{page.params.slug}</strong>"?</p>
 </ModalForm>

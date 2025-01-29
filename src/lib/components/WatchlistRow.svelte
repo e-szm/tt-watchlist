@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { goto } from '$app/navigation';
 
 	interface WatchlistRowProps {
 		symbol: string;
@@ -18,16 +19,24 @@
 
 		console.log('Time to refresh!');
 		async function getMarketData() {
+			let res;
 			try {
-				const res = await fetch(`/watchlist/symbol/${symbol}`);
-				const data = await res.json();
-
-				marketData.bid = data.bid;
-				marketData.ask = data.ask;
-				marketData.last = data.last;
+				res = await fetch(`/watchlist/symbol/${symbol}`);
 			} catch (err) {
-				console.error(err);
+				return console.error(err);
 			}
+			if (res.redirected) goto(res.url);
+
+			let data;
+			try {
+				data = await res.json();
+			} catch (err) {
+				return console.error(err);
+			}
+
+			marketData.bid = data.bid;
+			marketData.ask = data.ask;
+			marketData.last = data.last;
 		}
 		getMarketData();
 	});

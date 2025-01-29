@@ -1,29 +1,28 @@
 import { TT_BASE_URL } from '$env/static/private';
 
-interface AllWatchlistResponse {
-	items: {
-		name: string;
-		'order-index': number;
-		'watchlist-entries'?: { symbol: string }[];
-		'cms-id'?: string;
-		'group-name'?: string;
-	}[];
+interface WatchlistEntry {
+	symbol: string;
+	'instrument-type'?: string;
 }
 
-interface OneWatchlistResponse {
+interface Watchlist {
 	name: string;
 	'order-index': number;
-	'watchlist-entries'?: { symbol: string }[];
+	'watchlist-entries'?: WatchlistEntry[];
 	'cms-id'?: string;
 	'group-name'?: string;
 }
 
-interface PostWatchlist {
-	name: string;
-	'watchlist-entries': { symbol: string }[];
+interface GetAllWatchlistsResponse {
+	items: Watchlist[];
 }
 
-export async function getAllWatchlists(token: string): Promise<AllWatchlistResponse> {
+interface PostWatchlistRequest {
+	name: string;
+	'watchlist-entries': WatchlistEntry[];
+}
+
+export async function getAllWatchlists(token: string): Promise<GetAllWatchlistsResponse> {
 	const headers = new Headers();
 	headers.append('Content-Type', 'application/json');
 	headers.append('Authorization', token);
@@ -37,10 +36,7 @@ export async function getAllWatchlists(token: string): Promise<AllWatchlistRespo
 	return (await res.json()).data;
 }
 
-export async function getOneWatchlist(
-	token: string,
-	watchlist: string
-): Promise<OneWatchlistResponse> {
+export async function getOneWatchlist(token: string, watchlist: string): Promise<Watchlist> {
 	const headers = new Headers();
 	headers.append('Content-Type', 'application/json');
 	headers.append('Authorization', token);
@@ -54,10 +50,7 @@ export async function getOneWatchlist(
 	return (await res.json()).data;
 }
 
-export async function postWatchlist(
-	token: string,
-	body: PostWatchlist
-): Promise<OneWatchlistResponse> {
+export async function postWatchlist(token: string, body: PostWatchlistRequest): Promise<Watchlist> {
 	const headers = new Headers();
 	headers.append('Content-Type', 'application/json');
 	headers.append('Authorization', token);
@@ -75,8 +68,8 @@ export async function postWatchlist(
 export async function putWatchlist(
 	token: string,
 	watchlist: string,
-	body: PostWatchlist
-): Promise<OneWatchlistResponse> {
+	body: PostWatchlistRequest
+): Promise<Watchlist> {
 	const headers = new Headers();
 	headers.append('Content-Type', 'application/json');
 	headers.append('Authorization', token);
@@ -92,10 +85,7 @@ export async function putWatchlist(
 	return (await res.json()).data;
 }
 
-export async function deleteOneWatchlist(
-	token: string,
-	watchlist: string
-): Promise<OneWatchlistResponse> {
+export async function deleteOneWatchlist(token: string, watchlist: string): Promise<Watchlist> {
 	const headers = new Headers();
 	headers.append('Content-Type', 'application/json');
 	headers.append('Authorization', token);
@@ -103,20 +93,6 @@ export async function deleteOneWatchlist(
 	const res = await fetch(`${TT_BASE_URL}/watchlists/${watchlist}`, {
 		headers,
 		method: 'DELETE'
-	});
-	if (!res.ok || res.status !== 200) throw new Error('Something went wrong');
-
-	return (await res.json()).data;
-}
-
-export async function getMarketData(token: string, symbol: string): Promise<unknown> {
-	const headers = new Headers();
-	headers.append('Content-Type', 'application/json');
-	headers.append('Authorization', token);
-
-	const res = await fetch(`${TT_BASE_URL}/market-data/${symbol}`, {
-		headers,
-		method: 'GET'
 	});
 	if (!res.ok || res.status !== 200) throw new Error('Something went wrong');
 
