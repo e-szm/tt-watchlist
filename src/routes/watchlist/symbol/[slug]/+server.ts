@@ -1,6 +1,6 @@
 import { error, json, redirect } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getMarketData } from '$lib/server/watchlist';
+import { getMarketData } from '$lib/server/watchlistAPI';
 
 export const GET: RequestHandler = async ({ cookies, params }) => {
 	const existingToken = cookies.get('session-token');

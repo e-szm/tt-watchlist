@@ -5,7 +5,7 @@
 
 	import type { ActionResult } from '@sveltejs/kit';
 
-	import ModalForm from '$lib/components/ModalForm.svelte';
+	import ModalForm from '$lib/components/FormModal.svelte';
 
 	interface DeleteWatchlistProps {
 		openModal: string;

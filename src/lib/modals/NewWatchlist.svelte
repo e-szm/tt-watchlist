@@ -5,7 +5,7 @@
 	import type { ActionResult } from '@sveltejs/kit';
 
 	import Input from '$lib/components/Input.svelte';
-	import ModalForm from '$lib/components/ModalForm.svelte';
+	import ModalForm from '$lib/components/FormModal.svelte';
 
 	interface NewWatchlistProps {
 		openModal: string;

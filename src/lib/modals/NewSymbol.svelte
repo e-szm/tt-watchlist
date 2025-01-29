@@ -4,7 +4,7 @@
 
 	import type { ActionResult } from '@sveltejs/kit';
 
-	import ModalForm from '$lib/components/ModalForm.svelte';
+	import ModalForm from '$lib/components/FormModal.svelte';
 	import Search from '$lib/components/Search.svelte';
 
 	interface NewSymbolProps {

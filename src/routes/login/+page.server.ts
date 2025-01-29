@@ -1,13 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { postSession } from '$lib/server/session';
-
-import type { PageServerLoad } from './$types';
+import { postSession } from '$lib/server/sessionAPI';
 import type { Actions } from './$types';
-
-export const load: PageServerLoad = async ({ cookies }) => {
-	const existingToken = cookies.get('session-token');
-	if (existingToken) redirect(302, '/watchlist');
-};
 
 export const actions = {
 	default: async ({ cookies, request }) => {

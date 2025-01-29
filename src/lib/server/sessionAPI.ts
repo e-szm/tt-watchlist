@@ -1,13 +1,13 @@
 import { TT_BASE_URL } from '$env/static/private';
 
-interface PostSession {
+interface PostSessionRequest {
 	login: string;
 	password: string;
 	'remember-me'?: string;
 	'remember-token'?: string;
 }
 
-interface SessionResponse {
+interface PostSessionResponse {
 	user: {
 		email: string;
 		'external-id': string;
@@ -16,12 +16,12 @@ interface SessionResponse {
 		nickname: string;
 		username: string;
 	};
-	'remember-token': string;
+	'remember-token'?: string;
 	'session-expiration': string;
 	'session-token': string;
 }
 
-export async function postSession(body: PostSession): Promise<SessionResponse> {
+export async function postSession(body: PostSessionRequest): Promise<PostSessionResponse> {
 	const headers = new Headers();
 	headers.append('Content-Type', 'application/json');
 

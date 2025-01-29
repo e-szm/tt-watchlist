@@ -3,7 +3,7 @@ import {
 	postWatchlist,
 	putWatchlist,
 	deleteOneWatchlist
-} from '$lib/server/watchlist';
+} from '$lib/server/watchlistAPI';
 import { fail, redirect, type RequestEvent } from '@sveltejs/kit';
 
 export const newWatchlist = async ({ cookies, request }: RequestEvent) => {
