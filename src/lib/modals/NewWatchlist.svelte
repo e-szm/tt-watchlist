@@ -26,7 +26,7 @@
 		});
 		const result: ActionResult = deserialize(await res.text());
 		if (result.type === 'success') {
-			await invalidateAll();
+			invalidateAll();
 			onClose();
 		}
 		if (result.type === 'redirect') goto(result.location);
