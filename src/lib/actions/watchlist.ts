@@ -22,7 +22,7 @@ export const create = async ({ locals, request }: RequestEvent) => {
 		return fail(400, { error: 'Something went wrong', name });
 	}
 
-	redirect(303, `/watchlist/${watchlist.name}`);
+	redirect(303, `/watchlist/${encodeURIComponent(watchlist.name)}`);
 };
 
 export const remove = async ({ locals, params }: RequestEvent) => {

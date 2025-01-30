@@ -12,7 +12,7 @@ export async function getMarketData(token: string, symbol: string): Promise<Mark
 	headers.append('Content-Type', 'application/json');
 	headers.append('Authorization', token);
 
-	const res = await fetch(`${TT_BASE_URL}/market-data/${symbol}`, {
+	const res = await fetch(`${TT_BASE_URL}/market-data/${encodeURIComponent(symbol)}`, {
 		headers,
 		method: 'GET'
 	});

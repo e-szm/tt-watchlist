@@ -41,7 +41,7 @@ export async function getOneWatchlist(token: string, watchlist: string): Promise
 	headers.append('Content-Type', 'application/json');
 	headers.append('Authorization', token);
 
-	const res = await fetch(`${TT_BASE_URL}/watchlists/${watchlist}`, {
+	const res = await fetch(`${TT_BASE_URL}/watchlists/${encodeURIComponent(watchlist)}`, {
 		headers,
 		method: 'GET'
 	});
@@ -74,7 +74,7 @@ export async function putWatchlist(
 	headers.append('Content-Type', 'application/json');
 	headers.append('Authorization', token);
 
-	const res = await fetch(`${TT_BASE_URL}/watchlists/${watchlist}`, {
+	const res = await fetch(`${TT_BASE_URL}/watchlists/${encodeURIComponent(watchlist)}`, {
 		headers,
 		method: 'PUT',
 		body: JSON.stringify(body)
@@ -90,7 +90,7 @@ export async function deleteOneWatchlist(token: string, watchlist: string): Prom
 	headers.append('Content-Type', 'application/json');
 	headers.append('Authorization', token);
 
-	const res = await fetch(`${TT_BASE_URL}/watchlists/${watchlist}`, {
+	const res = await fetch(`${TT_BASE_URL}/watchlists/${encodeURIComponent(watchlist)}`, {
 		headers,
 		method: 'DELETE'
 	});

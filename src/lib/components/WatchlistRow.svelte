@@ -21,7 +21,7 @@
 		async function getMarketData() {
 			let res;
 			try {
-				res = await fetch(`/watchlist/symbol/${symbol}`);
+				res = await fetch(`/watchlist/symbol/${encodeURIComponent(symbol)}`);
 			} catch (err) {
 				return console.error(err);
 			}

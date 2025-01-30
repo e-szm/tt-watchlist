@@ -5,8 +5,7 @@
 	import Form from './Form.svelte';
 	import Button from './Button.svelte';
 
-	interface ModalProps {
-		isOpen: boolean;
+	interface FormModalProps {
 		title: string;
 		dangerous?: boolean;
 		onClose: MouseEventHandler<HTMLButtonElement>;
@@ -15,15 +14,7 @@
 		children: Snippet;
 	}
 
-	let {
-		title,
-		isOpen,
-		dangerous = false,
-		onClose,
-		onSubmit,
-		action,
-		children
-	}: ModalProps = $props();
+	let { title, dangerous, onClose, onSubmit, action, children }: FormModalProps = $props();
 
 	let modal: HTMLDivElement | undefined = $state(undefined);
 
@@ -34,20 +25,18 @@
 	});
 </script>
 
-{#if isOpen}
-	<div class="overlay">
-		<div class="modal" bind:this={modal}>
-			<h3>{title}</h3>
-			<Form method="POST" {action} {onSubmit}>
-				{@render children()}
-				<div class="button-container">
-					<Button type="button" look="secondary" onclick={onClose}>Close</Button>
-					<Button type="submit" look={dangerous ? 'dangerous' : 'primary'}>Confirm</Button>
-				</div>
-			</Form>
-		</div>
+<div class="overlay">
+	<div class="modal" bind:this={modal}>
+		<h3>{title}</h3>
+		<Form method="POST" {action} {onSubmit}>
+			{@render children()}
+			<div class="button-container">
+				<Button type="button" look="secondary" onclick={onClose}>Close</Button>
+				<Button type="submit" look={dangerous ? 'dangerous' : 'primary'}>Confirm</Button>
+			</div>
+		</Form>
 	</div>
-{/if}
+</div>
 
 <style>
 	.overlay {

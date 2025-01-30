@@ -8,11 +8,10 @@
 	import Search from '$lib/components/Search.svelte';
 
 	interface NewSymbolProps {
-		openModal: string;
 		onClose: () => void;
 	}
 
-	let { openModal, onClose }: NewSymbolProps = $props();
+	let { onClose }: NewSymbolProps = $props();
 
 	async function handleNewSymbol(
 		e: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }
@@ -32,12 +31,6 @@
 	}
 </script>
 
-<ModalForm
-	isOpen={openModal === 'new-symbol'}
-	title="New Symbol"
-	{onClose}
-	onSubmit={handleNewSymbol}
-	action="?/newSymbol"
->
+<ModalForm title="New Symbol" {onClose} onSubmit={handleNewSymbol} action="?/newSymbol">
 	<Search type="text" name="symbol" label="Search for a symbol" required={true} />
 </ModalForm>

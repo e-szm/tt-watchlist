@@ -8,11 +8,10 @@
 	import ModalForm from '$lib/components/FormModal.svelte';
 
 	interface DeleteWatchlistProps {
-		openModal: string;
 		onClose: () => void;
 	}
 
-	let { openModal, onClose }: DeleteWatchlistProps = $props();
+	let { onClose }: DeleteWatchlistProps = $props();
 
 	async function handleDeleteWatchlist(
 		e: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }
@@ -34,7 +33,6 @@
 </script>
 
 <ModalForm
-	isOpen={openModal === 'delete-watchlist'}
 	title="Delete Watchlist"
 	dangerous={true}
 	{onClose}
