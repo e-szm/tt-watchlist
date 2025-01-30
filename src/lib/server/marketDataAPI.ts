@@ -1,4 +1,4 @@
-import { TT_BASE_URL } from '$env/static/private';
+import Constants from '$lib/classes/Constants';
 
 interface MarketData {
 	symbol: string;
@@ -12,7 +12,7 @@ export async function getMarketData(token: string, symbol: string): Promise<Mark
 	headers.append('Content-Type', 'application/json');
 	headers.append('Authorization', token);
 
-	const res = await fetch(`${TT_BASE_URL}/market-data/${encodeURIComponent(symbol)}`, {
+	const res = await fetch(`${Constants.TT_BASE_URL}/market-data/${encodeURIComponent(symbol)}`, {
 		headers,
 		method: 'GET'
 	});

@@ -1,4 +1,6 @@
-import { TT_BASE_URL } from '$env/static/private';
+import Constants from '$lib/classes/Constants';
+
+const TT_BASE_URL = Constants.TT_BASE_URL;
 
 interface WatchlistEntry {
 	symbol: string;

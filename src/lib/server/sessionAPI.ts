@@ -1,4 +1,4 @@
-import { TT_BASE_URL } from '$env/static/private';
+import Constants from '$lib/classes/Constants';
 
 interface PostSessionRequest {
 	login: string;
@@ -25,7 +25,7 @@ export async function postSession(body: PostSessionRequest): Promise<PostSession
 	const headers = new Headers();
 	headers.append('Content-Type', 'application/json');
 
-	const res = await fetch(`${TT_BASE_URL}/sessions`, {
+	const res = await fetch(`${Constants.TT_BASE_URL}/sessions`, {
 		headers,
 		method: 'POST',
 		body: JSON.stringify(body)
