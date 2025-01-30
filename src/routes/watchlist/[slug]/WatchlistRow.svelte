@@ -17,8 +17,7 @@
 	$effect(() => {
 		marketDataRefresh; // Observe state to sync each row's update to parent's interval
 
-		console.log('Time to refresh!');
-		async function getMarketData() {
+		(async function getMarketData() {
 			let res;
 			try {
 				res = await fetch(`/watchlist/symbol/${encodeURIComponent(symbol)}`);
@@ -37,8 +36,7 @@
 			marketData.bid = data.bid;
 			marketData.ask = data.ask;
 			marketData.last = data.last;
-		}
-		getMarketData();
+		})();
 	});
 </script>
 
