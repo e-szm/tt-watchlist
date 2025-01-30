@@ -5,12 +5,13 @@ import type { Actions } from './$types';
 export const actions = {
 	default: async ({ cookies, request }) => {
 		const formData = await request.formData();
-		const login = formData.get('username');
+		const rawLogin = formData.get('username');
 		const password = formData.get('password');
 
-		if (!login || !password) return fail(400, { error: 'Invalid information', email: '' });
-		if (typeof login !== 'string' || typeof password !== 'string')
+		if (!rawLogin || !password) return fail(400, { error: 'Invalid information', email: '' });
+		if (typeof rawLogin !== 'string' || typeof password !== 'string')
 			return fail(400, { error: 'Invalid information', email: '' });
+		const login = rawLogin.toLowerCase();
 
 		try {
 			const data = await postSession({ login, password });

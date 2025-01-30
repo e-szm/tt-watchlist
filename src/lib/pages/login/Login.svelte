@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ActionData } from './$types';
+	import type { ActionData } from '../../../routes/login/$types';
 
 	import Form from '$lib/components/Form.svelte';
 	import Input from '$lib/components/Input.svelte';
