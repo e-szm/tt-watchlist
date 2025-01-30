@@ -1,38 +1,35 @@
-# sv
+# Eddie's tastytrade Watchlist Application
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Welcome! This watchlist application was built using SvelteKit and TypeScript, with no additional open source libraries. I had a great time building it and hope you enjoy looking through the code and playing around with the functionality.
 
-## Creating a project
+## A Quick Note on the Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+My goal going into this coding challenge was to learn SvelteKit, apply best practices, and create an enjoyable, seamless user experience that meets (at minimum) all base requirements.
 
-```bash
-# create a new project in the current directory
-npx sv create
+With that being said, you may notice some common UI features are not present, such as disabling form inputs / buttons while an async request is processing or media queries for full responsiveness. Features like these that are not exclusive to Svelte development nor explicitly stated in the requirements were not forgotten, but put in the "backlog" and tackled as time permitted.
 
-# create a new project in my-app
-npx sv create my-app
+I hope you do find, however, that the prioritized features that made it to development were well-thought out and implemented with care.
+
+## Now Let's Set it Up
+
+Since this is just a SvelteKit project, the setup should be pretty straight forward:
+
 ```
+gh repo clone https://github.com/e-szm/tt-watchlist.git
 
-## Developing
+cd tt-watchlist
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
+npm i
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+The application should now be running on http://localhost:5173/.
 
-To create a production version of your app:
+If you'd prefer, you can also preview a production build:
 
-```bash
+```
 npm run build
+npm run preview
 ```
 
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Enjoy!
