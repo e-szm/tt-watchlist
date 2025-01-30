@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { LayoutProps } from './$types';
-	import Watchlist from './Watchlist.svelte';
+	import Watchlist from '$lib/pages/watchlist/Watchlist.svelte';
 
 	let { data, children }: LayoutProps = $props();
 </script>

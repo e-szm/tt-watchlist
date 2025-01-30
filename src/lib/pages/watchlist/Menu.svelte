@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 
-	import type { LayoutData } from './$types';
+	import type { LayoutData } from '../../../routes/watchlist/$types';
 	import type { ChangeEventHandler } from 'svelte/elements';
 
 	import Button from '$lib/components/Button.svelte';

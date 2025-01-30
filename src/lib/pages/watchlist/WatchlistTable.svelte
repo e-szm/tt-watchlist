@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import type { LayoutData } from '../$types';
+	import type { LayoutData } from '../../../routes/watchlist/$types';
 	import WatchlistRow from './WatchlistRow.svelte';
 	import Constants from '$lib/classes/Constants';
 

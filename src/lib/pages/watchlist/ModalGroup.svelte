@@ -1,7 +1,7 @@
 <script lang="ts">
-	import DeleteWatchlist from '$lib/modals/DeleteWatchlist.svelte';
-	import NewSymbol from '$lib/modals/NewSymbol.svelte';
-	import NewWatchlist from '$lib/modals/NewWatchlist.svelte';
+	import NewWatchlist from './modals/NewWatchlist.svelte';
+	import DeleteWatchlist from './modals/DeleteWatchlist.svelte';
+	import NewSymbol from './modals/NewSymbol.svelte';
 
 	interface ModalGroupProps {
 		openModal: String;

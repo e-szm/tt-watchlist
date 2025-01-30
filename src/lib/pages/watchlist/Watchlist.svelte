@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import type { LayoutData } from './$types';
+	import type { LayoutData } from '../../../routes/watchlist/$types';
 
 	import Menu from './Menu.svelte';
 	import TableFooter from './TableFooter.svelte';
